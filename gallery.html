@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minecraft Render Gallery</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --neon-blue: #00f3ff;
+            --deep-blue: #0044ff;
+            --dark-bg: #020205;
+            --card-bg: #0a0a12;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            background-color: var(--dark-bg);
+            color: white;
+            font-family: 'VT323', monospace;
+            overflow-x: hidden;
+            min-height: 100vh;
+            position: relative;
+        }
+
+        /* BACKGROUND */
+        .bg-animation {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -1;
+            background-image: 
+                linear-gradient(rgba(0, 243, 255, 0.05) 1px, transparent 1px), 
+                linear-gradient(90deg, rgba(0, 243, 255, 0.05) 1px, transparent 1px);
+            background-size: 50px 50px;
+            animation: panGrid 15s linear infinite;
+        }
+
+        .bg-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -1;
+            background: radial-gradient(circle at center, rgba(0, 24, 66, 0.3) 0%, rgba(2, 2, 5, 1) 90%);
+        }
+
+        @keyframes panGrid {
+            0% { background-position: 0 0; }
+            100% { background-position: 50px 50px; }
+        }
+
+        header {
+            text-align: center;
+            padding: 60px 20px 40px;
+        }
+
+        h1 {
+            font-size: 4rem;
+            color: #fff;
+            text-transform: uppercase;
+            letter-spacing: 5px;
+            text-shadow: 
+                0 0 10px var(--neon-blue),
+                0 0 20px var(--neon-blue),
+                0 0 40px var(--deep-blue);
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            color: var(--neon-blue);
+            opacity: 0.8;
+            letter-spacing: 2px;
+        }
+
+        .gallery-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 30px;
+            padding-bottom: 50px; /* Dikurangi biar deket sama footer */
+        }
+
+        /* CARD STYLE */
+        .photo-card {
+            background: var(--card-bg);
+            border: 1px solid rgba(0, 243, 255, 0.2);
+            position: relative;
+            overflow: hidden;
+            border-radius: 4px;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+        }
+
+        .photo-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            border-color: var(--neon-blue);
+            box-shadow: 
+                0 10px 30px rgba(0, 243, 255, 0.15),
+                0 0 10px var(--neon-blue);
+            z-index: 10;
+        }
+
+        .ratio-16-9 { width: 100%; aspect-ratio: 16/9; position: relative; }
+        .ratio-1-1 { width: 100%; aspect-ratio: 1/1; position: relative; }
+
+        .photo-card img {
+            width: 100%; height: 100%;
+            object-fit: cover;
+            transition: 0.4s ease;
+        }
+
+        .hover-overlay {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(0, 0, 0, 0.4);
+            opacity: 0;
+            transition: 0.3s;
+            backdrop-filter: blur(2px);
+        }
+
+        .photo-card:hover .hover-overlay {
+            opacity: 1;
+        }
+
+        .overlay-text {
+            font-size: 5rem;
+            font-weight: bold;
+            color: #fff;
+            text-shadow: 
+                0 0 5px #fff,
+                0 0 10px var(--neon-blue),
+                0 0 20px var(--neon-blue);
+            animation: pulse 1.5s infinite alternate;
+        }
+
+        @keyframes pulse {
+            from { transform: scale(1); }
+            to { transform: scale(1.1); }
+        }
+        
+        .tech-line {
+            width: 100px;
+            height: 4px;
+            background: var(--neon-blue);
+            margin: 20px auto;
+            box-shadow: 0 0 15px var(--neon-blue);
+            border-radius: 2px;
+        }
+
+        /* --- FOOTER CURHATAN DEV --- */
+        .lazy-footer {
+            text-align: center;
+            padding: 40px 20px 80px;
+            max-width: 800px;
+            margin: 0 auto;
+            border-top: 1px dashed rgba(0, 243, 255, 0.3);
+            margin-top: 20px;
+        }
+
+        .dev-note {
+            font-size: 1.4rem;
+            color: #ccc;
+            margin-bottom: 25px;
+            line-height: 1.6;
+        }
+
+        .highlight-fail {
+            color: var(--neon-blue);
+            text-shadow: 0 0 5px var(--neon-blue);
+        }
+
+        .social-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .btn-social {
+            padding: 10px 25px;
+            border: 2px solid var(--neon-blue);
+            color: var(--neon-blue);
+            text-decoration: none;
+            font-size: 1.2rem;
+            text-transform: uppercase;
+            transition: 0.3s;
+            box-shadow: 0 0 5px rgba(0, 243, 255, 0.2);
+        }
+
+        .btn-social:hover {
+            background: var(--neon-blue);
+            color: #000;
+            box-shadow: 0 0 20px var(--neon-blue);
+            font-weight: bold;
+        }
+        /* TOMBOL KEMBALI */
+.back-navigation {
+    margin-top: 50px;
+    padding-bottom: 30px;
+}
+
+.btn-back {
+    display: inline-block;
+    padding: 12px 30px;
+    background: transparent;
+    border: 2px solid #ff0000; /* Merah sesuai permintaan awal */
+    color: #ff0000;
+    text-decoration: none;
+    font-size: 1.1rem;
+    text-transform: uppercase;
+    transition: 0.3s;
+    position: relative;
+    box-shadow: 0 0 10px rgba(255, 0, 0, 0.2);
+}
+
+.btn-back:hover {
+    background: #ff0000;
+    color: #fff;
+    box-shadow: 0 0 30px #ff0000;
+    transform: scale(1.05);
+}
+
+/* Animasi kedip dikit biar kayak neon rusak/glitch */
+.btn-back {
+    animation: neon-flicker 3s infinite;
+}
+
+@keyframes neon-flicker {
+    0%, 18%, 22%, 25%, 53%, 57%, 100% { opacity: 1; }
+    20%, 24%, 55% { opacity: 0.7; }
+}
+
+
+    </style>
+</head>
+<body>
+
+    <div class="bg-animation"></div>
+    <div class="bg-overlay"></div>
+
+    <header>
+        <h1>Minecraft Render</h1>
+        <div class="tech-line"></div>
+        <p class="subtitle">Minecraft Render // Prisma 3D</p>
+    </header>
+
+    <div class="gallery-container">
+        
+        <div class="photo-card"><div class="ratio-16-9"><img src="img/render1.jpg" alt="Render"></div><div class="hover-overlay"><span class="overlay-text">3D</span></div></div>
+        <div class="photo-card"><div class="ratio-16-9"><img src="img/render2.jpg" alt="Render"></div><div class="hover-overlay"><span class="overlay-text">3D</span></div></div>
+        <div class="photo-card"><div class="ratio-16-9"><img src="img/render3.jpg" alt="Render"></div><div class="hover-overlay"><span class="overlay-text">3D</span></div></div>
+        <div class="photo-card"><div class="ratio-16-9"><img src="img/render4.jpg" alt="Render"></div><div class="hover-overlay"><span class="overlay-text">3D</span></div></div>
+        <div class="photo-card"><div class="ratio-16-9"><img src="img/render5.jpg" alt="Render"></div><div class="hover-overlay"><span class="overlay-text">3D</span></div></div>
+        <div class="photo-card"><div class="ratio-16-9"><img src="img/render6.jpg" alt="Render"></div><div class="hover-overlay"><span class="overlay-text">3D</span></div></div>
+
+        <div class="photo-card"><div class="ratio-1-1"><img src="img/square1.jpg" alt="Render"></div><div class="hover-overlay"><span class="overlay-text">3D</span></div></div>
+        <div class="photo-card"><div class="ratio-1-1"><img src="img/square2.jpg" alt="Render"></div><div class="hover-overlay"><span class="overlay-text">3D</span></div></div>
+        <div class="photo-card"><div class="ratio-1-1"><img src="img/square3.jpg" alt="Render"></div><div class="hover-overlay"><span class="overlay-text">3D</span></div></div>
+        <div class="photo-card"><div class="ratio-1-1"><img src="img/square4.jpg" alt="Render"></div><div class="hover-overlay"><span class="overlay-text">3D</span></div></div>
+
+    </div>
+
+    <footer class="lazy-footer">
+        <p class="dev-note">
+            "Selebihnya liat di <span class="highlight-fail">Instagram/Tiktok</span> karena saya malas nambahin foto banyak²🗿<br>
+            (cape codingnya jir😹)"
+        </p>
+
+        <div class="social-buttons">
+            <a href="https://Instagram.com/abhyaja_" class="btn-social">Instagram</a>
+            <a href="https://www.tiktok.com/@_manusia_terbang_" class="btn-social">TikTok</a>
+        
+    </footer>
+
+    <footer class="back-navigation">
+                <div class="back-navigation">
+            <a href="index.html" class="btn-back"> Kembali ke Menu Utama </a>
+        </div>
+    </footer>
+
+</body>
+</html>

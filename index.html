@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Abhy Anak Baik</title>
+    
+    <link href="https://fonts.cdnfonts.com/css/minecraft-4" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        /* --- RESET & VARIABLES --- */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --bg-color: #0a0a0a;
+            --neon-blue: #00ffff;
+            --neon-purple: #bd00ff; /* Tambahan warna aksen biar tidak monoton */
+            --text-main: #ffffff;
+            --splash-yellow: #ffff55;
+            --font-pixel: 'Minecraft', sans-serif;
+            --card-bg: rgba(30, 30, 30, 0.9);
+        }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            font-family: var(--font-pixel);
+            overflow-x: hidden;
+            position: relative;
+            line-height: 1.5;
+        }
+
+        /* --- BACKGROUND ANIMATION --- */
+        .bg-particles {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -1;
+            background-image: 
+                linear-gradient(rgba(0, 255, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 255, 255, 0.03) 1px, transparent 1px);
+            background-size: 60px 60px;
+        }
+
+        .particle {
+            position: absolute;
+            background: rgba(0, 255, 255, 0.15);
+            width: 20px; height: 20px;
+            animation: floatUp linear infinite;
+            box-shadow: 0 0 5px var(--neon-blue);
+        }
+
+        @keyframes floatUp {
+            0% { transform: translateY(110vh) rotate(0deg); opacity: 0; }
+            20% { opacity: 1; }
+            100% { transform: translateY(-10px) rotate(360deg); opacity: 0; }
+        }
+
+        /* --- HEADER --- */
+        header {
+            text-align: center;
+            padding: 80px 20px 50px;
+        }
+
+        .logo-container { position: relative; display: inline-block; }
+
+        h1 {
+            font-size: 3.5rem;
+            text-transform: uppercase;
+            color: #fff;
+            text-shadow: 4px 4px 0 #000, 0 0 20px rgba(0, 255, 255, 0.5);
+            letter-spacing: 2px;
+        }
+
+        /* Splash Text Animation */
+        .splash-text {
+            position: absolute;
+            top: -25px;
+            right: -70px;
+            color: var(--splash-yellow);
+            font-size: 1.2rem;
+            transform: rotate(-20deg);
+            animation: splashPulse 0.6s infinite alternate;
+            text-shadow: 2px 2px 0 #3f3f3f;
+            white-space: nowrap;
+        }
+
+        @keyframes splashPulse {
+            0% { transform: rotate(-20deg) scale(1); }
+            100% { transform: rotate(-20deg) scale(1.1); }
+        }
+
+        /* --- CONTAINER --- */
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* --- PROFILE SECTION (REFINED) --- */
+        .profile-card {
+            background: var(--card-bg);
+            border: 2px solid #555;
+            padding: 40px;
+            display: flex;
+            align-items: center;
+            gap: 40px;
+            border-radius: 4px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.8), inset 0 0 50px rgba(0,0,0,0.5);
+            margin-bottom: 50px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Garis hiasan neon di atas card */
+        .profile-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 4px;
+            background: linear-gradient(90deg, var(--neon-blue), var(--neon-purple));
+        }
+
+        .profile-pic {
+            width: 160px;
+            height: 160px;
+            border: 4px solid var(--neon-blue);
+            box-shadow: 0 0 15px var(--neon-blue);
+            background: #000;
+            flex-shrink: 0;
+            object-fit: cover;
+            image-rendering: pixelated;
+        }
+
+        .profile-info { flex: 1; }
+
+        .profile-info h2 {
+            color: var(--neon-blue);
+            margin-bottom: 10px;
+            font-size: 2rem;
+            text-shadow: 2px 2px 0 #000;
+        }
+
+        /* Badge pengganti XP Bar */
+        .role-badge {
+            display: inline-block;
+            background: rgba(0, 255, 255, 0.1);
+            border: 1px solid var(--neon-blue);
+            color: var(--neon-blue);
+            padding: 5px 12px;
+            font-size: 0.8rem;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .profile-info p {
+            color: #ddd;
+            font-size: 1rem;
+            line-height: 1.8;
+        }
+
+        /* --- SOCIAL MEDIA (Functional) --- */
+        .social-section {
+            text-align: center;
+            margin-bottom: 80px;
+        }
+        
+        .social-label {
+            color: #aaa; 
+            margin-bottom: 15px; 
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .social-grid {
+            display: inline-flex;
+            gap: 15px;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 15px;
+            border: 2px dashed #444;
+            border-radius: 8px;
+            flex-wrap: wrap; 
+            justify-content: center;
+        }
+
+        .slot {
+            width: 60px; height: 60px;
+            background: #3a3a3a;
+            border: 3px solid;
+            border-color: #777 #222 #222 #777; /* Efek 3D Button */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 26px;
+            color: #ccc;
+            text-decoration: none;
+            transition: all 0.2s;
+            position: relative;
+        }
+
+        .slot:hover {
+            background: #555;
+            color: var(--neon-blue);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 255, 255, 0.3);
+            border-color: var(--neon-blue);
+        }
+
+        /* --- GALLERY GRID --- */
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            color: #fff;
+            margin-bottom: 40px;
+            text-shadow: 3px 3px 0 #222;
+        }
+        
+        .section-title span { color: var(--neon-blue); }
+
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 30px;
+            margin-bottom: 80px;
+        }
+
+        .card {
+            background: #1a1a1a;
+            border: 2px solid #444;
+            transition: transform 0.3s, border-color 0.3s;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        .card:hover {
+            transform: translateY(-8px);
+            border-color: var(--neon-blue);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+
+        .img-wrapper {
+            overflow: hidden;
+            height: 220px;
+            border-bottom: 4px solid #333;
+        }
+
+        .card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s;
+        }
+
+        /* Efek Zoom saat hover */
+        .card:hover img { transform: scale(1.1); }
+
+        .card-body {
+            padding: 20px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .card-title {
+            color: var(--neon-blue);
+            font-size: 1.1rem;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+        }
+
+        .card-desc {
+            font-size: 0.85rem; 
+            color: #aaa;
+            margin-bottom: 15px;
+        }
+
+        /* Tombol Minecraft Keren */
+        .mc-btn-small {
+            display: block;
+            background: #777;
+            color: #fff;
+            padding: 8px 0;
+            font-size: 0.9rem;
+            text-decoration: none;
+            border: 2px solid #222;
+            border-top-color: #999; /* Highlight atas */
+            border-left-color: #999; /* Highlight kiri */
+            text-align: center;
+            text-shadow: 1px 1px 0 #000;
+            transition: background 0.1s;
+        }
+
+        .mc-btn-small:hover { background: #888; }
+        .mc-btn-small:active {
+            border: 2px solid #222;
+            border-bottom-color: #999;
+            border-right-color: #999;
+            background: #666;
+            transform: translateY(2px);
+        }
+
+        /* --- FOOTER --- */
+        footer {
+            text-align: center;
+            padding: 40px;
+            background: #050505;
+            border-top: 2px solid #333;
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        /* --- RESPONSIVE --- */
+        @media (max-width: 768px) {
+            h1 { font-size: 2.5rem; }
+            .splash-text { font-size: 0.9rem; right: -10px; top: -30px; }
+            
+            .profile-card {
+                flex-direction: column;
+                text-align: center;
+                padding: 30px 20px;
+            }
+
+            .profile-pic { width: 140px; height: 140px; margin-bottom: 10px; }
+            
+            .social-grid { gap: 10px; }
+            .slot { width: 50px; height: 50px; font-size: 20px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="bg-particles" id="particles"></div>
+
+    <header>
+        <div class="logo-container">
+            <h1>Abhy <span style="color: var(--neon-blue);">Baik</span></h1>
+            <div class="splash-text">Haii Bung!</div>
+        </div>
+    </header>
+
+    <div class="container">
+        
+        <section class="profile-card">
+            <img src="https://i.ibb.co.com/GBn9c2C/Tak-berjudul35-20260121235728.png" alt="Abhy Avatar" class="profile-pic">
+            <div class="profile-info">
+                <h2>DayyAnim</h2>
+                <div class="role-badge">Student & Content Creator</div>
+                
+                <p>Hai Bung! Perkenalkan saya Abhy, seorang pelajar kelas 9 SMP berusia 15 tahun. Saya hobi mengulik dunia digital seperti Editing, Animasi, sedikit Coding, dan tentu saja bermain game.</p>
+            </div>
+        </section>
+
+        <section class="social-section">
+            <h3 class="social-label">> /connect_server:</h3>
+            <div class="social-grid">
+                
+                <a href="https://instagram.com/abhyaja_" target="_blank" class="slot" title="Instagram">
+                    <i class="fab fa-instagram"></i>
+                </a>
+
+                <a href="https://tiktok.com/_manusia_terbang_" target="_blank" class="slot" title="TikTok">
+                    <i class="fab fa-tiktok"></i>
+                </a>
+
+                <a href="https://youtube.com/@_ITsMeDhill_" target="_blank" class="slot" title="YouTube">
+                    <i class="fab fa-youtube"></i>
+                </a>
+
+                <a href="https://discord.gg/SkFGJraql" target="_blank" class="slot" title="Discord">
+                    <i class="fab fa-discord"></i>
+                </a>
+
+                <a href="mailto:abhyfadhilah2@gmail.com" class="slot" title="Kirim Email">
+                    <i class="fas fa-envelope"></i>
+                </a>
+
+            </div>
+        </section>
+
+        <h2 class="section-title"> <span>Gallery</span></h2>
+        
+        <div class="gallery">
+            <div class="card">
+                <div class="img-wrapper">
+                    <img src="https://i.ibb.co.com/VcdXhzBS/Tak-berjudul4-20250706181204.png" alt="Render">
+                </div>
+                <div class="card-body">
+                    <div>
+                        <h3 class="card-title">Minecraft Render</h3>
+                        <p class="card-desc">Karya editing & animasi 3D Minecraft buatan sendiri.</p>
+                    </div>
+                    <a href="gallery.html" class="mc-btn-small">Lihat Render</a>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="img-wrapper">
+                    <img src="https://i.ibb.co.com/zpJQgj6/2025-12-03-15-08-27.png" alt="Character">
+                </div>
+                <div class="card-body">
+                    <div>
+                        <h3 class="card-title">Character Design</h3>
+                        <p class="card-desc">Custom skin, EmoteCraft, dan setup Shaders cinematic.</p>
+                    </div>
+                    <a href="Character.html" class="mc-btn-small">Lihat</a>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="img-wrapper">
+                    <img src="https://i.ibb.co.com/pvKBYx7x/2026-01-24-18-52-25.png" alt="Server">
+                </div>
+                <div class="card-body">
+                    <div>
+                        <h3 class="card-title">EGS SMP</h3>
+                        <p class="card-desc">Server Minecraft tempat kita bersenang-senang bareng.</p>
+                    </div>
+                    <a href="soon1.html" class="mc-btn-small">Join Server</a>
+                </div>
+            </div>
+
+             <div class="card">
+                <div class="img-wrapper">
+                    <img src="https://i.ibb.co.com/5Wp7hcMd/2025-11-24-20-05-18.png" alt="Community">
+                </div>
+                <div class="card-body">
+                    <div>
+                        <h3 class="card-title">Komunitas</h3>
+                        <p class="card-desc">Bergabung dengan teman-teman di komunitas Discord.</p>
+                    </div>
+                    <a href="soon2.html" class="mc-btn-small">Gabung</a>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <footer>
+        <p><b>Abhy Anak Baik</b> &copy; 2026</p>
+    </footer>
+
+    <script>
+        // Script Partikel Otomatis
+        const bg = document.getElementById('particles');
+        const particleCount = 15; // Jumlah partikel
+
+        for(let i=0; i < particleCount; i++){
+            let p = document.createElement('div');
+            p.classList.add('particle');
+            p.style.left = Math.random() * 100 + '%';
+            p.style.animationDuration = (Math.random() * 15 + 5) + 's';
+            p.style.animationDelay = (Math.random() * 5) + 's';
+            
+            // Variasi ukuran partikel
+            let size = Math.random() * 20 + 5;
+            p.style.width = size + 'px';
+            p.style.height = size + 'px';
+            
+            bg.appendChild(p);
+        }
+    </script>
+</body>
+</html>
